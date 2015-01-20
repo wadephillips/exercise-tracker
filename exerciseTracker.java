@@ -13,11 +13,21 @@ class exerciseTracker {
 		// date
 		// type of exercise
 		// lenght of time
-		/*if (args[1] == "f") {
-			System.out.println("Fuck that, I sat on the couch.");
-			System.exit(0);
+		// System.out.println(args[0]);
+		// System.exit(0);
+		if (args.length > 0) {
+			System.out.println("Fuck we\'ve got args.");
+			for (String s : args) {	
+				System.out.println(s);
+				System.out.println(s.getClass().getSimpleName());
+				if ( s.equals("f")){
+					System.out.println("Fuck it I sat on the couch.");
+					System.exit(0);
+				}
+			}
 		}
-		else {*/
+		
+		// else {
 		int exerciseType = 0;
 		Date date = new Date();
 		SimpleDateFormat fdate = new SimpleDateFormat ("yyyy-MM-dd");
