@@ -43,7 +43,7 @@ class exerciseTracker {
 	      Class.forName("org.sqlite.JDBC");
 	      c = DriverManager.getConnection("jdbc:sqlite:exerciseTracker.db");
 	      c.setAutoCommit(false);
-	      System.out.println("Opened database successfully");
+	      // System.out.println("Opened database successfully");
 
 	      Statement stmt = c.createStatement();
 	      
@@ -80,7 +80,7 @@ class exerciseTracker {
 
 	    } catch ( Exception e ) {
 	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-	      System.exit(0);
+	      System.exit(1);
 	    }
 		// }
 		/*System.out.println("1) run");
@@ -89,6 +89,31 @@ class exerciseTracker {
 	}
 
 	private static void addExerciseType(){
-		System.out.println("You called the addExerciseType method.");
+		// System.out.println("You called the addExerciseType method.");
+		Connection c = null;
+		try {
+	      Class.forName("org.sqlite.JDBC");
+	      c = DriverManager.getConnection("jdbc:sqlite:exerciseTracker.db");
+	      c.setAutoCommit(false);
+	      System.out.println("Opened database successfully");
+
+	      String exercise = "";
+	      Scanner keyboard = new Scanner(System.in);
+
+	      System.out.println("What exercise activity would you like to add?");
+	      exercise = keyboard.next();
+
+	      String sql = "INSERT INTO exercise ('exercise') VALUES ('" + exercise + "');";
+
+	      Statement stmt = c.createStatement();
+	      stmt.executeUpdate(sql);
+		  stmt.close();
+		  c.commit();
+		  c.close();
+
+	  	} catch ( Exception e ) {
+	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+	      System.exit(1);
+	    }
 	}
 }
