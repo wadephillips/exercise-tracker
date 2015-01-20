@@ -16,14 +16,15 @@ class exerciseTracker {
 		// System.out.println(args[0]);
 		// System.exit(0);
 		if (args.length > 0) {
-			System.out.println("Fuck we\'ve got args.");
-			for (String s : args) {	
-				System.out.println(s);
-				System.out.println(s.getClass().getSimpleName());
+			for (String s : args) {
 				if ( s.equals("f")){
 					System.out.println("Fuck it I sat on the couch.");
 					System.exit(0);
+				} else if (s.equals("n")) {
+					addExerciseType();
+					System.exit(0);
 				}
+
 			}
 		}
 		
@@ -85,8 +86,9 @@ class exerciseTracker {
 		/*System.out.println("1) run");
 		System.out.println("2) hike");
 		System.out.println("3) bike");*/
-		
+	}
 
-
+	private static void addExerciseType(){
+		System.out.println("You called the addExerciseType method.");
 	}
 }
