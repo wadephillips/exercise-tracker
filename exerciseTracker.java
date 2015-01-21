@@ -23,12 +23,14 @@ class exerciseTracker {
 				} else if (s.equals("n")) {
 					addExerciseType();
 					System.exit(0);
+				} else if (s.equals("r")) {
+					getReports();
+					System.exit(0);
 				}
 
 			}
 		}
 		
-		// else {
 		int exerciseType = 0;
 		Date date = new Date();
 		SimpleDateFormat fdate = new SimpleDateFormat ("yyyy-MM-dd");
@@ -82,10 +84,10 @@ class exerciseTracker {
 	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	      System.exit(1);
 	    }
-		// }
-		/*System.out.println("1) run");
-		System.out.println("2) hike");
-		System.out.println("3) bike");*/
+	    int[] reports;
+	    reports = new int[3];
+	    reports = getReports();
+		
 	}
 
 	private static void addExerciseType(){
@@ -115,5 +117,45 @@ class exerciseTracker {
 	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	      System.exit(1);
 	    }
+
+
+
+	}
+
+	private static Connection getDbConnection() {
+		Connection c = null;
+		try {
+	      Class.forName("org.sqlite.JDBC");
+	      c = DriverManager.getConnection("jdbc:sqlite:exerciseTracker.db");
+	      c.setAutoCommit(false);
+	      System.out.println("REOpened database successfully");
+
+	      } catch ( Exception e ) {
+	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+	      System.exit(1);
+	    }
+	    return c;
+	}
+
+	private static int[] getReports() {
+		// what do I want to know
+		// Total minutes of exercise
+		// per exercise - you have gone on x activity name for a total of y minutes
+		int[] report;
+		report = new int[3];
+		Connection c = null;
+		c = getDbConnection();
+		try { 
+		  Statement stmt = c.createStatement();
+		  String totalTimeSql = "SELECT SUM(duration) as total_minutes FROM exercise_log;";
+
+		  ResultSet totalTime = stmt.executeQuery(totalTimeSql);
+		  report[0] = totalTime.getInt("total_minutes");
+		  System.out.println(report[0]);
+		} catch ( Exception e ) {
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+	      	System.exit(1);
+		}
+		return report;
 	}
 }
