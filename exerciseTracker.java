@@ -24,7 +24,9 @@ class exerciseTracker {
 					addExerciseType();
 					System.exit(0);
 				} else if (s.equals("r")) {
-					getReports();
+					int[] report = new int[3];
+					report = getReports();
+					System.out.println(report[2]);
 					System.exit(0);
 				}
 
@@ -128,7 +130,7 @@ class exerciseTracker {
 	      Class.forName("org.sqlite.JDBC");
 	      c = DriverManager.getConnection("jdbc:sqlite:exerciseTracker.db");
 	      c.setAutoCommit(false);
-	      System.out.println("REOpened database successfully");
+	      // System.out.println("REOpened database successfully");
 
 	      } catch ( Exception e ) {
 	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -152,6 +154,8 @@ class exerciseTracker {
 		  ResultSet totalTime = stmt.executeQuery(totalTimeSql);
 		  report[0] = totalTime.getInt("total_minutes");
 		  System.out.println(report[0]);
+		  report[1] = 2;
+		  report[2] = 42;
 		} catch ( Exception e ) {
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	      	System.exit(1);
