@@ -30,8 +30,14 @@ class exerciseTracker {
 					System.exit(0);
 				}
 
+				/*if (s.equals("d")) {
+					Date date = new Date();
+				} else {
+					Date date = new Date();
+				}*/
+
 			}
-		}
+		} 
 		
 		int exerciseType = 0;
 		Date date = new Date();
@@ -125,6 +131,7 @@ class exerciseTracker {
 	}
 
 	private static Connection getDbConnection() {
+		// need to refactor other connection requests to use this.
 		Connection c = null;
 		try {
 	      Class.forName("org.sqlite.JDBC");
@@ -140,6 +147,8 @@ class exerciseTracker {
 	}
 
 	private static int[] getReports() {
+		//Does this even need to return the report?  Could it just print the info?
+		//
 		// what do I want to know
 		// Total minutes of exercise
 		// per exercise - you have gone on x activity name for a total of y minutes
@@ -153,9 +162,9 @@ class exerciseTracker {
 
 		  ResultSet totalTime = stmt.executeQuery(totalTimeSql);
 		  report[0] = totalTime.getInt("total_minutes");
-		  System.out.println(report[0]);
-		  report[1] = 2;
-		  report[2] = 42;
+		  System.out.println("You have exercised for a total of " + report[0] + " minutes.");
+		  /*report[1] = 2;
+		  report[2] = 42;*/
 		} catch ( Exception e ) {
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 	      	System.exit(1);
