@@ -9,12 +9,7 @@ import java.sql.*;
 class exerciseTracker {
 
 	public static void main(String[] args) {
-		// what info do we need to collect?
-		// date
-		// type of exercise
-		// lenght of time
-		// System.out.println(args[0]);
-		// System.exit(0);
+
 		if (args.length > 0) {
 			for (String s : args) {
 				if ( s.equals("f")){
@@ -24,9 +19,9 @@ class exerciseTracker {
 					addExerciseType();
 					System.exit(0);
 				} else if (s.equals("r")) {
-					int[] report = new int[3];
-					report = getReports();
-					System.out.println(report[2]);
+					// int[] report = new int[3];
+					getReportPerActivity();
+					// System.out.println(report[2]);
 					System.exit(0);
 				}
 
@@ -94,7 +89,7 @@ class exerciseTracker {
 	    }
 	    int[] reports;
 	    reports = new int[3];
-	    reports = getReports();
+	    reports = getReports(0);
 		
 	}
 
@@ -146,7 +141,7 @@ class exerciseTracker {
 	    return c;
 	}
 
-	private static int[] getReports() {
+	private static int[] getReports(int id) {
 		//Does this even need to return the report?  Could it just print the info?
 		//
 		// what do I want to know
@@ -156,9 +151,16 @@ class exerciseTracker {
 		report = new int[3];
 		Connection c = null;
 		c = getDbConnection();
+		String andId = new String();
+		if (id != 0) {
+			andId = "AND exercise_id = " + id;
+		} 
+		else {
+			andId = "";
+		}
 		try { 
 		  Statement stmt = c.createStatement();
-		  String totalTimeSql = "SELECT SUM(duration) as total_minutes FROM exercise_log;";
+		  String totalTimeSql = "SELECT SUM(duration) as total_minutes FROM exercise_log" + andId + " ;";
 
 		  ResultSet totalTime = stmt.executeQuery(totalTimeSql);
 		  report[0] = totalTime.getInt("total_minutes");
@@ -170,5 +172,55 @@ class exerciseTracker {
 	      	System.exit(1);
 		}
 		return report;
+	}
+	
+	private static int[] getExerciseIds(){
+		Connection c = null;
+		c = getDbConnection();
+		int array_length = countTableRows("exercise");
+		int exercise_ids[];
+		exercise_ids = new int[ array_length - 1 ];
+		try {
+			Statement stmt = c.createStatement();
+			ResultSet results = stmt.executeQuery("SELECT id FROM exercise;");
+			results.getInt("id");
+			int i = 0;
+			while(results.next()) {
+				exercise_ids[i] = results.getInt("id");
+				i++;
+			}
+		} catch ( Exception e ) {
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+	      	System.exit(1);
+		}
+		return exercise_ids;
+	}
+
+	private static int countTableRows(String table) {
+		int count = 0;
+		Connection c = null;
+		c = getDbConnection();
+		try {
+			PreparedStatement stmt = c.prepareStatement("SELECT COUNT(`id`) as id FROM ? ;");
+		    stmt.setString(1, table);
+			ResultSet countResult = stmt.executeQuery();
+			countResult.next();
+			count = countResult.getInt("id");
+		} catch ( Exception e ) {
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+	      	System.exit(1);
+		}
+		return count;
+	}
+
+	private static int[] getReportPerActivity() {
+			// Connection c = null;
+			// c = getDbConnection();
+			// Statement stmt = c.createStatement();
+			int[] activity_ids = getExerciseIds();
+			for ( int id : activity_ids ) {
+				getReports(id);
+			}
+			return activity_ids;
 	}
 }
