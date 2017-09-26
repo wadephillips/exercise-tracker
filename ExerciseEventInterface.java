@@ -19,9 +19,9 @@ public interface ExerciseEventInterface {
 
     /**
      * Set the type of exercise for this event
-     * @param typeId  The exercise type id
+     * @param exerciseType  The exercise type id
      */
-    public void setExerciseType(int typeId);
+    public void setExerciseType(ExerciseInterface exerciseType);
 
     /**
      * Get the date of the exercise event
@@ -37,9 +37,9 @@ public interface ExerciseEventInterface {
 
     /**
      * Get the type of exercise for this event
-     * @return id of the exercise type for this event
+     * @return
      */
-    public int getExerciseType();
+    public ExerciseInterface getExerciseType();
 
     /**
      * Save the exercise event

@@ -6,6 +6,8 @@ import java.util.Date;
 public class ExerciseEvent implements ExerciseEventInterface {
 
     private Date date;
+    private Double length;
+    private ExerciseInterface exerciseType;
 
 
 
@@ -33,9 +35,9 @@ public class ExerciseEvent implements ExerciseEventInterface {
     /**
      * Set the type of exercise for this event
      *
-     * @param typeId The exercise type id
+     * @param exerciseType The exercise type id
      */
-    public void setExerciseType(int typeId) {
+    public void setExerciseType(ExerciseInterface exerciseType) {
 
     }
 
@@ -62,8 +64,8 @@ public class ExerciseEvent implements ExerciseEventInterface {
      *
      * @return id of the exercise type for this event
      */
-    public int getExerciseType() {
-        return 0;
+    public ExerciseInterface getExerciseType() {
+        return null;
     }
 
     /**
